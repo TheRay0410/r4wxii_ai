@@ -2,7 +2,6 @@ package com.r4wxii
 
 import jp.nephy.penicillin.PenicillinClient
 import jp.nephy.penicillin.core.emulation.EmulationMode
-import jp.nephy.penicillin.endpoints.Statuses
 import jp.nephy.penicillin.extensions.complete
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
@@ -22,9 +21,9 @@ class Tweet {
     }
     fun getTweet(user: String) {
         runBlocking  {
-            client.timeline.user(screenName = user, count = 100).await().forEach { status ->
+            client.timeline.user(screenName = user, count = 30,includeRTs = false,excludeReplies = true).await().forEach { status ->
                 // prints status text.
-
+                println(status)
             }
         }
     }
