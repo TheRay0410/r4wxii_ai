@@ -5,10 +5,12 @@ import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.extensions.complete
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
-
+import com.r4wxii.MorphoAnalysis
 
 class Tweet {
     val key = KeyData()
+    val morphoAnalysis = MorphoAnalysis()
+    val markovChain = MarkovChain()
     val client = PenicillinClient {
         account {
             application(key.ConsumerKey, key.ConsumerSecret)
@@ -23,11 +25,11 @@ class Tweet {
         runBlocking  {
             client.timeline.user(screenName = user, count = 30,includeRTs = false,excludeReplies = true).await().forEach { status ->
                 // prints status text.
-                println(status)
+                morphoAnalysis.makeBlock(morphoAnalysis.blockList,morphoAnalysis.text2morphene(status.toString()))
             }
         }
     }
     fun post(text: String = "テスト") {
-        client.statuses.update(status = text).complete()
+        client.statuses.update(status = markovChain.genText(morphoAnalysis.blockList)).complete()
     }
 }
