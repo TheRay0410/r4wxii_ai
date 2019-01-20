@@ -4,18 +4,18 @@ import kotlin.random.Random
 import kotlin.random.nextInt
 
 class MarkovChain {
-    fun makeSentence(blockList: List<Triple<String, String, String>>): String {
-        var (sentence: String, block: Triple<String, String, String>) = findStartBlock(blockList)
+    fun genText(blockList: List<Triple<String, String, String>>): String {
+        var (text: String, block: Triple<String, String, String>) = findStartBlock(blockList)
         do {
             block = findBlock(blockList, block.third)
-            sentence += block.first + block.second
-        } while(sentence.length < 140 && block.third !=  "_END_")
-        return sentence
+            text += block.first + block.second
+        } while(text.length < 140 && block.third !=  "_END_")
+        return text
     }
     fun findStartBlock(blockList: List<Triple<String, String, String>>): Pair<String, Triple<String, String, String>> {
         val startBlock = blockList.filter { it.first == "_START_" }[Random.nextInt(blockList.filter { it.first == "_START_" }.indices)]
-        val initSentence: String = startBlock.second + startBlock.third
-        return Pair(initSentence, startBlock)
+        val initText: String = startBlock.second + startBlock.third
+        return Pair(initText, startBlock)
     }
     fun findBlock(blockList: List<Triple<String, String, String>>,firstWord: String): Triple<String, String, String> {
         println(blockList.filter { it.first == firstWord })
