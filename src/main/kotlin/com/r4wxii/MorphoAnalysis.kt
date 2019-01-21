@@ -8,7 +8,7 @@ class MorphoAnalysis {
     var blockList = mutableListOf<Triple<String, String, String>>()
     fun Node.isNull(): Boolean = this.next == null
     fun text2morphene(text: String): List<String> {
-        tagger .parse(text)
+        tagger.parse(text)
         var node = tagger.parseToNode(text).next
         var morphene: MutableList<String> = mutableListOf()
         while(!node.isNull()) {
