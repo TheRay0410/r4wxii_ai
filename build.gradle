@@ -30,10 +30,10 @@ repositories {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    implementation "jp.nephy:penicillin:$penicillin_version"
-    implementation "io.ktor:ktor-client-apache:$ktor_version"
+    compile "jp.nephy:penicillin:$penicillin_version"
+    compile "io.ktor:ktor-client-apache:$ktor_version"
 
     compile 'org.slf4j:slf4j-log4j12:1.7.25'
     compile fileTree(dir: './src/main/libs', includes: ['*.jar'])
@@ -44,4 +44,11 @@ compileKotlin {
 }
 compileTestKotlin {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.r4wxii.R4wxiiAIKt'
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 }
