@@ -4,6 +4,9 @@ import org.chasen.mecab.Tagger
 import org.chasen.mecab.Node
 
 class MorphoAnalysis {
+    init {
+        System.loadLibrary("MeCab")
+    }
     val tagger = Tagger("-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd")
     var blockList = mutableListOf<Triple<String, String, String>>()
     fun Node.isNull(): Boolean = this.next == null
