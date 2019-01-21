@@ -5,7 +5,6 @@ import jp.nephy.penicillin.core.emulation.EmulationMode
 import jp.nephy.penicillin.extensions.complete
 import kotlinx.coroutines.runBlocking
 import java.util.concurrent.TimeUnit
-import com.r4wxii.MorphoAnalysis
 
 class Tweet {
     val key = KeyData()
@@ -25,7 +24,7 @@ class Tweet {
         runBlocking  {
             client.timeline.user(screenName = user, count = 30,includeRTs = false,excludeReplies = true).await().forEach { status ->
                 // prints status text.
-                morphoAnalysis.makeBlock(morphoAnalysis.blockList,morphoAnalysis.text2morphene(status.toString()))
+                morphoAnalysis.makeBlock(morphoAnalysis.blockList,morphoAnalysis.text2morphene(status.toString().replace("""^(http|https)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?${'$'}""".toRegex(),"")))
             }
         }
     }
