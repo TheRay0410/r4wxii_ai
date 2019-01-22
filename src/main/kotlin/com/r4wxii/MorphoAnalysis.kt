@@ -27,7 +27,7 @@ class MorphoAnalysis {
         } else {
             Triple("_START_", morphene[0], morphene[1])
         })
-        if(morphene.isOnly()) {
+        if(!morphene.isOnly()) {
             for (index in morphene.indices) {
                 if (index < morphene.lastIndex - 1) {
                     blockList.add(Triple(morphene[index], morphene[index + 1], morphene[index + 2]))
