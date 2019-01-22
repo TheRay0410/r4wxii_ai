@@ -18,7 +18,6 @@ class MarkovChain {
         return Pair(initText, startBlock)
     }
     fun findBlock(blockList: List<Triple<String, String, String>>,firstWord: String): Triple<String, String, String> {
-        println(blockList.filter { it.first == firstWord })
         val block = blockList.filter { it.first == firstWord }[Random.nextInt(blockList.filter { it.first == firstWord }.indices)]
         return block
     }
