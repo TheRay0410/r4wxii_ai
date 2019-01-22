@@ -22,9 +22,8 @@ class Tweet {
     }
     fun getTweet(user: String) {
         runBlocking  {
-            client.timeline.user(screenName = user, count = 30,includeRTs = false,excludeReplies = true).await().forEach { status ->
-                // prints status text.
-                morphoAnalysis.makeBlock(morphoAnalysis.blockList,morphoAnalysis.text2morphene(status.toString().replace("""^(http|https)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?${'$'}""".toRegex(),"")))
+            client.timeline.user(screenName = user, count = 200,includeRTs = false,excludeReplies = true).await().forEach { status ->
+                morphoAnalysis.makeBlock(morphoAnalysis.blockList,morphoAnalysis.text2morphene(status.text.replace("""^(http|https)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?${'$'}""".toRegex(),"")))
             }
         }
     }
