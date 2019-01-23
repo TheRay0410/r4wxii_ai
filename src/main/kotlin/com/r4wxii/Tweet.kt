@@ -23,7 +23,7 @@ class Tweet {
     fun getTweet(user: String) {
         runBlocking  {
             client.timeline.user(screenName = user, count = 200,includeRTs = false,excludeReplies = true).await().forEach { status ->
-                morphoAnalysis.makeBlock(morphoAnalysis.blockList,morphoAnalysis.text2morphene(status.text.replace("""^(http|https)://([\w-]+\.)+[\w-]+(/[\w-./?%&=]*)?${'$'}""".toRegex(),"")))
+                morphoAnalysis.makeBlock(morphoAnalysis.blockList,morphoAnalysis.text2morphene(status.text.replace("""http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?|#(w*[一-龠_ぁ-ん_ァ-ヴーａ-ｚＡ-Ｚa-zA-Z0-9]+|[a-zA-Z0-9_]+|[a-zA-Z0-9_]w*)""".toRegex(),"")))
             }
         }
     }
