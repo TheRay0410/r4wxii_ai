@@ -20,14 +20,12 @@ class Tweet {
         maxRetries = 5
         retry(1, TimeUnit.SECONDS)
     }
-    fun getTweet(user: String) {
-        runBlocking  {
-            client.timeline.user(screenName = user, count = 200,includeRTs = false,excludeReplies = true).await().forEach { status ->
-                morphoAnalysis.makeBlock(morphoAnalysis.blockList,morphoAnalysis.text2morphene(status.text.replace("""http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?|\s#(w*[一-龠_ぁ-ん_ァ-ヴーａ-ｚＡ-Ｚa-zA-Z0-9]+|[a-zA-Z0-9_]+|[a-zA-Z0-9_]w*)""".toRegex(),"")))
-            }
+    suspend fun getTweet(user: String) {
+        client.timeline.user(screenName = user, count = 200,includeRTs = false,excludeReplies = true).await().forEach { status ->
+            morphoAnalysis.makeBlock(morphoAnalysis.blockList,morphoAnalysis.text2morphene(status.text.replace("""http(s)?://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?|\s#(w*[一-龠_ぁ-ん_ァ-ヴーａ-ｚＡ-Ｚa-zA-Z0-9]+|[a-zA-Z0-9_]+|[a-zA-Z0-9_]w*)""".toRegex(),"")))
         }
     }
-    fun post(text: String = "テスト") {
-        client.statuses.update(status = markovChain.genText(morphoAnalysis.blockList)).complete()
+    suspend fun post() {
+        client.statuses.update(status = markovChain.genText(morphoAnalysis.blockList)).await()
     }
 }
