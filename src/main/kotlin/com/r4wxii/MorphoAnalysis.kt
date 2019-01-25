@@ -10,6 +10,7 @@ class MorphoAnalysis {
     val tagger = Tagger("-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd")
     var blockList = mutableListOf<Triple<String, String, String>>()
     fun text2morphene(text: String): List<String> {
+        if(text == "") return emptyList()
         tagger.parse(text)
         var node = tagger.parseToNode(text).next
         var morphene: MutableList<String> = mutableListOf()
@@ -20,12 +21,12 @@ class MorphoAnalysis {
         return morphene
     }
     fun makeBlock(blockList: MutableList<Triple<String, String, String>>, morphene: List<String>) {
-        blockList.add(if(morphene.run { count() == 1 }) {
-            Triple("_START_", morphene[0], "_END_")
-        } else {
-            Triple("_START_", morphene[0], morphene[1])
-        })
-        if(morphene.run { count() != 1 }) {
+        when(morphene.count()) {
+            0 -> Unit
+            1 -> blockList.add(Triple("_START_", morphene[0], "_END_"))
+            else -> blockList.add(Triple("_START_", morphene[0], morphene[1]))
+        }
+        if(morphene.run { count() > 1}) {
             for (index in morphene.indices) {
                 if (index < morphene.lastIndex - 1) {
                     blockList.add(Triple(morphene[index], morphene[index + 1], morphene[index + 2]))
