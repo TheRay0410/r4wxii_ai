@@ -1,8 +1,5 @@
 package com.r4wxii
 
-import kotlin.random.Random
-import kotlin.random.nextInt
-
 class MarkovChain {
     fun genText(blockList: List<Triple<String, String, String>>): String {
         var (text: String, block: Triple<String, String, String>) = findStartBlock(blockList)
@@ -12,12 +9,9 @@ class MarkovChain {
         } while(text.length < 140 && block.third !=  "_END_")
         return text
     }
-    fun findStartBlock(blockList: List<Triple<String, String, String>>): Pair<String, Triple<String, String, String>> {
-        val startBlock = blockList.filter { it.first == "_START_" }[Random.nextInt(blockList.filter { it.first == "_START_" }.indices)]
+    private fun findStartBlock(blockList: List<Triple<String, String, String>>): Pair<String, Triple<String, String, String>> {
+        val startBlock = blockList.filter { it.first == "_START_" }.random()
         return Pair(startBlock.second, startBlock)
     }
-    fun findBlock(blockList: List<Triple<String, String, String>>,firstWord: String): Triple<String, String, String> {
-        val block = blockList.filter { it.first == firstWord }[Random.nextInt(blockList.filter { it.first == firstWord }.indices)]
-        return block
-    }
+    private fun findBlock(blockList: List<Triple<String, String, String>>,firstWord: String): Triple<String, String, String> = blockList.filter { it.first == firstWord }.random()
 }
