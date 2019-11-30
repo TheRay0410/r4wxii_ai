@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit
 class Tweet {
     val key = KeyData()
     val morphoAnalysis = MorphoAnalysis()
-    val markovChain = MarkovChain()
     val client = PenicillinClient {
         account {
             application(key.ConsumerKey, key.ConsumerSecret)
@@ -26,6 +25,7 @@ class Tweet {
         }
     }
     suspend fun post() {
-        client.statuses.update(status = markovChain.genText(morphoAnalysis.blockList)).await()
+        val markovChain = MarkovChain(morphoAnalysis.blockList)
+        client.statuses.update(status = markovChain.genText()).await()
     }
 }
