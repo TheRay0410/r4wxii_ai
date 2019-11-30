@@ -10,3 +10,6 @@ gradlew.bat
 settings.gradle
 /src/test/
 /src/main/resources/
+/build/
+r4wxii_ai.iml
+/src/main/libs
